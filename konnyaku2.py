@@ -163,7 +163,6 @@ def main():
      
     except KeyboardInterrupt:
         pass
-    f.close()
 
 if __name__ == '__main__':
     main()
