@@ -6,6 +6,7 @@ import numpy
 #import speech_recognition as sr
 from google.cloud import translate_v2 as translate
 from google.cloud import speech
+import os
 from os import path
 import subprocess
 import RPi.GPIO as GPIO
@@ -46,14 +47,17 @@ def recognizing(name, from_target, to_target):
         translation = translate_client.translate(text, target_language=to_target)
         text2 = translation['translatedText']
         print(text2)
+        text3 = '\"'+text2+'\"'
         # making words file
         # TTS using espeak for English, jsay for Japanese
         if to_target == 'en':
-            spc = ["espeak","-ven+f3","-k5","-s150"]
+            #print('English!! espeak')
+            spc = ['./festival.sh',text3]
+            #spc = ['echo',text3]
         else:
-            spc = ["./jsay.sh"]
-        text3 = "\""+text2+"\""
-        spc.append(text3)
+            #print('Japanese!! jsay')
+            spc = ['./jsay.sh',text3]
+        print('try to start subprocess')
         subprocess.call(spc)
     except:
         print("Google Speech Recognition could not understand audio")
@@ -122,8 +126,8 @@ def main():
                 if not pushflg_en:
                     from_target = 'ja'
                     to_target = 'en'
-                #else:
-                    #continue
+                else:
+                    break
                 # start recording Japanese wavefile
                 if not pushflg_ja:
                     pushflg_ja = True
@@ -143,8 +147,8 @@ def main():
                 if not pushflg_ja:
                     from_target = 'en'
                     to_target = 'ja'
-                #else:
-                    #continue
+                else:
+                    break
                 # start recording English wavefile
                 if not pushflg_en:
                     pushflg_en = True
@@ -163,6 +167,7 @@ def main():
      
     except KeyboardInterrupt:
         pass
+    os.system("sudo shutdown -h now")
 
 if __name__ == '__main__':
     main()

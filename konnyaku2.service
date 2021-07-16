@@ -1,0 +1,13 @@
+[Unit]
+Description=dual direction translator
+After=syslog.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/pi/konnyaku2
+ExecStart=/home/pi/konnyaku2/auto.sh
+TimeoutStopSec=5
+StandardOutput=null
+
+[Install]
+WantedBy = multi-user.target
