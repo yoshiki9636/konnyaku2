@@ -2,8 +2,6 @@ import io
 import pyaudio
 import time
 import wave
-import numpy
-#import speech_recognition as sr
 from google.cloud import translate_v2 as translate
 from google.cloud import speech
 import os
@@ -167,7 +165,7 @@ def main():
      
     except KeyboardInterrupt:
         pass
-    os.system("sudo shutdown -h now")
+    #os.system("sudo shutdown -h now") # for auto shutdown
 
 if __name__ == '__main__':
     main()
